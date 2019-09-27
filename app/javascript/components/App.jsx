@@ -1,16 +1,16 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "../components/views/Home";
 class App extends React.Component {
   render () {
     return (
-      <React.Fragment>
-        Message: {this.props.message}
-      </React.Fragment>
+      <Router>
+        <Switch>
+          <Route path="/" exact component={Home} />
+        </Switch>
+      </Router>
     );
   }
 }
-
-App.propTypes = {
-  message: PropTypes.string
-};
 export default App
