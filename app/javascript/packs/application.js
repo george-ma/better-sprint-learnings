@@ -7,11 +7,14 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+/** Bootstrap */
 import $ from 'jquery';
 import Popper from 'popper.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import '../style/application.css';
+
+/**Styles*/
+import '../style/application.scss';
 
 console.log('Hello World from Webpacker')
 // Support component names relative to this directory:
