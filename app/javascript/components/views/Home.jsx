@@ -7,7 +7,7 @@ export default () => (
       <div className="container secondary-color">
         <h1 className="display-4">Better Sprint Learnings</h1>
         <p className="lead">
-          A collection of sprint learnings categorized with different services.
+          A collection of sprint insights categorized by each service.
         </p>
         <hr className="my-4" />
         <Link
