@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-class Learnings extends React.Component {
+class LearningsContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,6 +41,7 @@ class Learnings extends React.Component {
         </div>
       </div>
     ));
+    
     const noLearnings = (
       <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
         <h4>
@@ -81,4 +82,4 @@ class Learnings extends React.Component {
   }
 
 }
-export default Learnings;
+export default LearningsContainer;
