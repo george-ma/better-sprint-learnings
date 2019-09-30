@@ -1,7 +1,6 @@
 class Api::V1::LearningsController < ApplicationController
-  def index
-    learning = Learning.all.order(created_at: :desc)
-    render json: learning
+  def learning_params
+    params.permit(:name, :description)
   end
 
   def create
@@ -13,9 +12,19 @@ class Api::V1::LearningsController < ApplicationController
     end
   end
 
+  def index
+    allLearnings = Learning.all.order(created_at: :desc)
+    render json: allLearnings
+  end
+
+  def learning
+    @learning ||= Learning.find(params[:id])
+  end
+
   def show
     if learning
-      render json: learning
+      # render json: learning 
+      render :json => learning.to_json(:include => :tags)
     else
       render json: learning.errors
     end
@@ -26,11 +35,4 @@ class Api::V1::LearningsController < ApplicationController
     render json: { message: 'Learning deleted!' }
   end
 
-  def learning_params
-    params.permit(:name, :tags, :description)
-  end
-
-  def learning
-    @learning ||= Learning.find(params[:id])
-  end
 end

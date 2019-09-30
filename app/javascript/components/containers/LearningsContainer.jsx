@@ -41,7 +41,7 @@ class LearningsContainer extends React.Component {
         </div>
       </div>
     ));
-    
+
     const noLearnings = (
       <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
         <h4>

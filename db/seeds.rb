@@ -4,7 +4,13 @@
 9.times do |i|
   Learning.create(
     name: "Learning #{i + 1}",
-    tags: 'ItemDataPlatform, idp-admin',
     description: 'Test Description'
   )
 end
+
+learning = Learning.first
+Tag.create(
+  name: "item-data-platform"
+)
+tag = Tag.first
+learning.tags << tag

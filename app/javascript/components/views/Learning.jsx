@@ -5,17 +5,13 @@ import axios from "axios";
 class Learning extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { learning: { tags: "" } };
-
-    this.addHtmlEntities = this.addHtmlEntities.bind(this);
+    this.state = { 
+      learning: { tags: [] } 
+    };
   }
 
   componentDidMount() {
-    const {
-      match: {
-        params: { id }
-      }
-    } = this.props;
+    const id = this.props.match.params.id;
 
     axios.get(`/api/v1/show/${id}`)
       .then(res => {
@@ -27,26 +23,19 @@ class Learning extends React.Component {
       })
   }
 
-  addHtmlEntities(str) {
-    return String(str)
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">");
-  }
-
   render() {
     const { learning } = this.state;
     let tagList = "No tags available";
-
+    
     if (learning.tags.length > 0) {
-      tagList = learning.tags
-        .split(",")
-        .map((tags, index) => (
-          <li key={index} className="list-group-item">
-            {tags}
+      tagList = learning.tags.map(tag => {
+        return (
+          <li key={tag.id} className="list-group-item">
+            {tag.name}
           </li>
-        ));
+        )
+      });
     }
-    const learningDescription = this.addHtmlEntities(learning.description);
 
     return (
       <div className="">
@@ -71,11 +60,9 @@ class Learning extends React.Component {
             </div>
             <div className="col-sm-12 col-lg-7">
               <h5 className="mb-2">Learning Description</h5>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: `${learningDescription}`
-                }}
-              />
+              <div>
+                {learning.description}
+              </div>
             </div>
             <div className="col-sm-12 col-lg-2">
               <button type="button" className="btn btn-danger">
