@@ -64,8 +64,8 @@ class LearningsContainer extends React.Component {
         <div className="py-5">
           <main className="container">
             <div className="text-right mb-3">
-              <Link to="/new_learning" className="btn custom-button">
-                Create New Learnings
+              <Link to="/learning" className="btn custom-button">
+                Create New Learning
               </Link>
             </div>
             <div className="row">
