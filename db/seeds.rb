@@ -1,6 +1,4 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-
+# Create Mock Learnings
 9.times do |i|
   Learning.create(
     name: "Learning #{i + 1}",
@@ -8,9 +6,14 @@
   )
 end
 
-learning = Learning.first
+# Create Mock Tags
 Tag.create(
   name: "item-data-platform"
 )
+
+learning = Learning.first
 tag = Tag.first
-learning.tags << tag
+
+# Create a learning tag for a learning, and add to tag
+learningTag = LearningTag.create(learning: learning)
+tag.learning_tags << learningTag

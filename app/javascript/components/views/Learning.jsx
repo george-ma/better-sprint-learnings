@@ -15,6 +15,7 @@ class Learning extends React.Component {
 
     axios.get(`/api/v1/show/${id}`)
       .then(res => {
+        console.log(res)
         this.setState({ learning: res.data })
       })
       .catch(error => {

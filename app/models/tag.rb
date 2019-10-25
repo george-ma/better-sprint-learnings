@@ -1,5 +1,6 @@
 class Tag < ApplicationRecord
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 
-  has_and_belongs_to_many :learnings
+  has_many :learning_tags
+  has_many :learnings, :through => :learning_tags
 end

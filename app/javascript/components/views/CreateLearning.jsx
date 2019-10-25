@@ -19,8 +19,38 @@ class CreateLearning extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('A learning was submitted: '+ this.state.tags)
+    // alert('A learning was submitted: '+ this.state.name)
     event.preventDefault();
+
+    const url = "/api/v1/learnings/create";
+    const { name, description, tags } = this.state;
+
+    if (name.length == 0 || description.length == 0)
+      return;
+
+    const body = {
+      name,
+      description,
+      tags
+    };
+
+    const token = document.querySelector('meta[name="csrf-token"]').content;
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "X-CSRF-Token": token,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then(response => this.props.history.push(`/recipe/${response.id}`))
+      .catch(error => console.log(error.message));
   }
 
   render() {
@@ -37,7 +67,6 @@ class CreateLearning extends React.Component {
                 <input
                   type="text"
                   id="name"
-                  // id="learningName"
                   className="form-control"
                   required
                   onChange={this.handleChange}
