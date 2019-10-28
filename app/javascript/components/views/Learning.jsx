@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -6,7 +6,9 @@ class Learning extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      learning: { tags: [] } 
+      learning: { 
+        description: "",
+        tags: [] } 
     };
   }
 
@@ -15,13 +17,19 @@ class Learning extends React.Component {
 
     axios.get(`/api/v1/show/${id}`)
       .then(res => {
-        console.log(res)
         this.setState({ learning: res.data })
       })
       .catch(error => {
         console.log(`Error loading learnings: ${error}`);
         this.props.history.push("/");
       })
+  }
+
+  /**
+   * Replace new line characters with <br> tags
+   */
+  formatDescription(description) {
+    return description.replace(/\n/g, "<br> <br>")
   }
 
   render() {
@@ -37,6 +45,8 @@ class Learning extends React.Component {
         )
       });
     }
+
+    const formattedDescription = this.formatDescription(learning.description)
 
     return (
       <div className="">
@@ -61,9 +71,7 @@ class Learning extends React.Component {
             </div>
             <div className="col-sm-12 col-lg-7">
               <h5 className="mb-2">Learning Description</h5>
-              <div>
-                {learning.description}
-              </div>
+              <div dangerouslySetInnerHTML={{__html: `${formattedDescription}`}}/>
             </div>
             <div className="col-sm-12 col-lg-2">
               <button type="button" className="btn btn-danger">

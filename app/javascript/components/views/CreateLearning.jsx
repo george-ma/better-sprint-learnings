@@ -23,15 +23,15 @@ class CreateLearning extends React.Component {
     event.preventDefault();
 
     const url = "/api/v1/learnings/create";
-    const { name, description, tags } = this.state;
+    const { name, tags, description } = this.state;
 
     if (name.length == 0 || description.length == 0)
       return;
 
     const body = {
       name,
-      description,
-      tags
+      tags,
+      description
     };
 
     const token = document.querySelector('meta[name="csrf-token"]').content;
@@ -49,7 +49,7 @@ class CreateLearning extends React.Component {
         }
         throw new Error("Network response was not ok.");
       })
-      .then(response => this.props.history.push(`/recipe/${response.id}`))
+      .then(response => this.props.history.push(`/learning/${response.id}`))
       .catch(error => console.log(error.message));
   }
 
@@ -63,7 +63,7 @@ class CreateLearning extends React.Component {
             </h1>
             <form onSubmit={this.handleSubmit}>
               <div className="form-group">
-                <label htmlFor="recipeName">Learning name</label>
+                <label htmlFor="learningName">Learning name</label>
                 <input
                   type="text"
                   id="name"
@@ -73,7 +73,7 @@ class CreateLearning extends React.Component {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="recipeIngredients">Tags</label>
+                <label htmlFor="learningTags">Tags</label>
                 <input
                   type="text"
                   id="tags"
