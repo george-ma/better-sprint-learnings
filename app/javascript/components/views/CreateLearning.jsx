@@ -6,8 +6,8 @@ class CreateLearning extends React.Component {
     super(props);
     this.state = {
       name: "",
-      description: "",
-      tags: ""
+      tags: "",
+      description: ""
     }
     
     this.handleChange = this.handleChange.bind(this);
@@ -19,7 +19,6 @@ class CreateLearning extends React.Component {
   }
 
   handleSubmit(event) {
-    // alert('A learning was submitted: '+ this.state.name)
     event.preventDefault();
 
     const url = "/api/v1/learnings/create";
