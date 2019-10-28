@@ -7,11 +7,19 @@ class Learning extends React.Component {
     super(props);
     this.state = { 
       learning: { 
+        id: 0,
+        name: "",
         description: "",
-        tags: [] } 
+        tags: [],
+        created_at: "",
+        updated_at: ""
+      }
     };
   }
-
+  
+  /**
+   * TODO: Change to use async / await
+   */
   componentDidMount() {
     const id = this.props.match.params.id;
 
