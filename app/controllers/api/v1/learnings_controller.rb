@@ -1,17 +1,16 @@
 class Api::V1::LearningsController < ApplicationController
-  def learning_params
-    params.permit(:name, :tags, :description)
-  end
 
+  # Create learning, tag, and laerning-tag relation (LearningTag) (if any)
   def create
-    # learning = Learning.create!(learning_params)
-
     learning = Learning.create(name: params[:name], description: params[:description])
-
-    tag = Tag.find_or_create_by(name: params[:tags])
-
-    learningTag = LearningTag.create(learning: learning)
-    tag.learning_tags << learningTag
+    
+    tags = params[:tags]
+    tags.each do |tagHash| # tagHash = hash of {name:"exampleTag"}
+      tag = Tag.find_or_create_by(name: tagHash[:name])
+      
+      learningTag = LearningTag.create(learning: learning)
+      tag.learning_tags << learningTag
+    end
 
     if learning
       render json: learning

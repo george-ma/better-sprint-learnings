@@ -13,6 +13,7 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.1.0",
+    "react-tag-autocomplete": "^5.11.2",
     "react_ujs": "^2.6.0"
   },
   "devDependencies": {

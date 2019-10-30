@@ -1,17 +1,32 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import ReactTags from "react-tag-autocomplete"
 
 class CreateLearning extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
-      tags: "",
+      tags: [],
       description: ""
     }
     
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleAddition = this.handleAddition.bind(this);
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleDelete(i) {
+    const tags = this.state.tags.slice(0)
+    tags.splice(i, 1)
+    this.setState({ tags })
+  }
+
+  handleAddition(tag) {
+    const tags = [].concat(this.state.tags, tag)
+    this.setState({ tags })
   }
 
   handleChange(event) {
@@ -72,17 +87,14 @@ class CreateLearning extends React.Component {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="learningTags">Tags</label>
-                <input
-                  type="text"
-                  id="tags"
-                  className="form-control"
-                  // required
-                  onChange={this.handleChange}
+                <ReactTags
+                  tags={this.state.tags}
+                  suggestions={[]}
+                  allowNew={true}
+                  allowBackspace={false}
+                  handleDelete={this.handleDelete}
+                  handleAddition={this.handleAddition}
                 />
-                <small id="tagsHelp" className="form-text text-muted">
-                  Separate each tag with a comma.
-                </small>
               </div>
               <label htmlFor="description">Learning Description</label>
               <textarea
