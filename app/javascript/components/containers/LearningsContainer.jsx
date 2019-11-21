@@ -103,7 +103,7 @@ class LearningsContainer extends React.Component {
                     onChange={this.handleChange}
                   >
                   </input>
-                  <button type="submit" className="btn custom-button">
+                  <button type="submit" className="btn custom-button mt-1">
                     Search by Tag
                   </button>
                 </form>
