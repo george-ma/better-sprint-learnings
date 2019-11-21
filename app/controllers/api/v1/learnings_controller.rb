@@ -24,6 +24,16 @@ class Api::V1::LearningsController < ApplicationController
     render json: allLearnings
   end
 
+  def filterByTag
+    filteredLearnings = Learning.joins(:tags).where(tags: { name: params[:tagName]})
+
+    if filteredLearnings
+      render json: filteredLearnings
+    else
+      render json: filteredLearnings.errors
+    end
+  end
+
   def learning
     @learning ||= Learning.find(params[:id])
   end
