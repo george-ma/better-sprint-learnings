@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       get 'learnings/index'
       post 'learnings/create'
       get '/show/:id', to: 'learnings#show'
+      post '/edit/:id', to: 'learnings#edit'
       delete '/destroy/:id', to: 'learnings#destroy'
     end
   end

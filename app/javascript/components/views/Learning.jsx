@@ -15,6 +15,8 @@ class Learning extends React.Component {
         updated_at: ""
       }
     };
+
+    this.editLearning = this.editLearning.bind(this)
     this.deleteLearning = this.deleteLearning.bind(this)
   }
   
@@ -32,6 +34,11 @@ class Learning extends React.Component {
         console.log(`Error loading learnings: ${error}`);
         this.props.history.push("/");
       })
+  }
+
+  editLearning() {
+    const id = this.state.learning.id;
+    this.props.history.push(`/learning/${id}/edit`)
   }
 
   deleteLearning() {
@@ -107,6 +114,9 @@ class Learning extends React.Component {
               <div dangerouslySetInnerHTML={{__html: `${formattedDescription}`}}/>
             </div>
             <div className="col-sm-12 col-lg-2">
+              <button type="button" className="btn btn-danger" onClick={this.editLearning}>
+                Edit Learning
+              </button>
               <button type="button" className="btn btn-danger" onClick={this.deleteLearning}>
                 Delete Learning
               </button>
