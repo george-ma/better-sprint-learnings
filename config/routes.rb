@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       post 'learnings/create'
       get 'learnings/filterByTag/:tagName', to: 'learnings#filterByTag'
       get '/show/:id', to: 'learnings#show'
+      post '/edit/:id', to: 'learnings#edit'
       delete '/destroy/:id', to: 'learnings#destroy'
     end
   end

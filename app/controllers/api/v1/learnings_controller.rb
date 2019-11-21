@@ -19,6 +19,23 @@ class Api::V1::LearningsController < ApplicationController
     end
   end
 
+  def edit
+    res = Learning.where(id: params[:id]).update(name: params[:name], description: params[:description])
+    if res
+      render json: res
+    else
+      render json: res.errors
+    end
+    # tags = params[:tags]
+    # tags.each do |tagHash| # tagHash = hash of {name:"exampleTag"}
+    #   tag = Tag.find_or_create_by(name: tagHash[:name])
+      
+    #   learningTag = LearningTag.create(learning: learning)
+    #   tag.learning_tags << learningTag
+    # end
+
+  end
+
   def index
     allLearnings = Learning.all.order(created_at: :desc)
     render json: allLearnings
