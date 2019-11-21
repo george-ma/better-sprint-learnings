@@ -75,7 +75,7 @@ class LearningsContainer extends React.Component {
     const noLearnings = (
       <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
         <h4>
-          No learnings yet. Why not <Link to="/new_learning">create one</Link>
+          No learnings yet. Why not <Link to="/learning">create one</Link>
         </h4>
       </div>
     );
