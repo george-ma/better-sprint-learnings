@@ -61,7 +61,7 @@ class CreateLearning extends React.Component {
         if (response.ok) {
           return response.json();
         }
-        throw new Error("Network response was not ok.");
+        throw new Error("Network response (POST Learning) failed.");
       })
       .then(response => this.props.history.push(`/learning/${response.id}`))
       .catch(error => console.log(error.message));

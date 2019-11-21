@@ -15,6 +15,7 @@ class Learning extends React.Component {
         updated_at: ""
       }
     };
+    this.deleteLearning = this.deleteLearning.bind(this)
   }
   
   /**
@@ -31,6 +32,30 @@ class Learning extends React.Component {
         console.log(`Error loading learnings: ${error}`);
         this.props.history.push("/");
       })
+  }
+
+  deleteLearning() {
+    const id = this.state.learning.id;
+
+    const url = `/api/v1/destroy/${id}`
+
+    const token = document.querySelector('meta[name="csrf-token"]').content;
+    fetch(url, {
+      method: "DELETE",
+      headers: {
+        "X-CSRF-Token": token,
+        "Content-Type": "application/json"
+      },
+    })
+      .then(response => {
+        if (response.ok) {
+          alert("Learning Deleted!")
+          return response.json();
+        }
+        throw new Error("Network response (DELETE Learning) failed.");
+      })
+      .then(() => this.props.history.push("/learnings"))
+      .catch(error => console.log(error.message))
   }
 
   /**
@@ -82,7 +107,7 @@ class Learning extends React.Component {
               <div dangerouslySetInnerHTML={{__html: `${formattedDescription}`}}/>
             </div>
             <div className="col-sm-12 col-lg-2">
-              <button type="button" className="btn btn-danger">
+              <button type="button" className="btn btn-danger" onClick={this.deleteLearning}>
                 Delete Learning
               </button>
             </div>
