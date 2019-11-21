@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'learnings/index'
       post 'learnings/create'
+      get 'learnings/filterByTag/:tagName', to: 'learnings#filterByTag'
       get '/show/:id', to: 'learnings#show'
       delete '/destroy/:id', to: 'learnings#destroy'
     end

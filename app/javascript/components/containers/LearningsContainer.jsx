@@ -6,11 +6,15 @@ class LearningsContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tagFilter: "",
       learnings: []
     };
-  }
 
-  componentDidMount() {
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  
+  getLearnings(){
     axios.get("/api/v1/learnings/index")
       .then(res => {
         this.setState({ learnings: res.data })
@@ -19,6 +23,32 @@ class LearningsContainer extends React.Component {
         console.log(`Error loading learnings: ${error}`);
         this.props.history.push("/");
       })
+  }
+
+  componentDidMount() {
+    this.getLearnings();
+  }
+
+  handleChange(event){
+    this.setState({ [event.target.id]: event.target.value});
+  }
+
+  handleSubmit(event){
+    event.preventDefault();
+    const tagFilter = this.state.tagFilter
+
+    if (tagFilter) {
+      axios.get(`/api/v1/learnings/filterByTag/${tagFilter}`)
+        .then(res => {
+          this.setState({ learnings: res.data })
+        })
+        .catch(error => {
+          console.log(`Error loading learnings: ${error}`);
+          this.props.history.push("/");
+        })
+    } else { // No tag to filter by, get all learnings
+      this.getLearnings();
+    }
   }
 
   render() {
@@ -63,10 +93,26 @@ class LearningsContainer extends React.Component {
         </section>
         <div className="py-5">
           <main className="container">
-            <div className="text-right mb-3">
-              <Link to="/learning" className="btn custom-button">
-                Create New Learning
-              </Link>
+            <div className="row">
+              <div className="col-md mb-3">
+                <form onSubmit={this.handleSubmit}>
+                  <input
+                    type="text"
+                    id="tagFilter"
+                    className="form-control"
+                    onChange={this.handleChange}
+                  >
+                  </input>
+                  <button type="submit" className="btn custom-button mt-1">
+                    Search by Tag
+                  </button>
+                </form>
+              </div>
+              <div className="col-md mb-3 text-right">
+                <Link to="/learning" className="btn custom-button">
+                  Create New Learning
+                </Link>
+              </div>
             </div>
             <div className="row">
               {learnings.length > 0 ? allLearnings : noLearnings}
