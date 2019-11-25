@@ -12,8 +12,11 @@ class Api::V1::LearningsController < ApplicationController
     tags.each do |tagHash| # tagHash = hash of {name:"exampleTag"}
       tag = Tag.find_or_create_by(name: tagHash[:name])
       
-      learningTag = LearningTag.create(learning: learning)
-      tag.learning_tags << learningTag
+      # Prevent duplicate learning_tags to be created
+      if !LearningTag.find_by(learning_id: learning.id, tag_id: tag.id)
+        learningTag = LearningTag.create(learning: learning)
+        tag.learning_tags << learningTag
+      end
     end
   end
 
