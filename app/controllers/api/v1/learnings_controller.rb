@@ -1,6 +1,6 @@
 class Api::V1::LearningsController < ApplicationController
 
-  # Create learning, tag, and laerning-tag relation (LearningTag) (if any)
+  # Create learning, tag, and learning-tag relation (LearningTag) (if any)
   def create
     learning = Learning.create(name: params[:name], description: params[:description])
     
