@@ -55,6 +55,10 @@ class Api::V1::LearningsController < ApplicationController
     @learning ||= Learning.find(params[:id])
   end
 
+  def learning_tags
+    @learning_tags ||= LearningTag.where(learning_id: params[:id])
+  end
+
   def show
     if learning
       # render json: learning 
@@ -66,6 +70,7 @@ class Api::V1::LearningsController < ApplicationController
 
   def destroy
     learning&.destroy # Delete a learning only if it exists
+    learning_tags&.destroy_all
     render json: { message: 'Learning deleted!' }
   end
 
