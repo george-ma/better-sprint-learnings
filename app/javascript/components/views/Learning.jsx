@@ -114,12 +114,30 @@ class Learning extends React.Component {
               <div dangerouslySetInnerHTML={{__html: `${formattedDescription}`}}/>
             </div>
             <div className="col-sm-12 col-lg-2">
-              <button type="button" className="btn btn-danger mb-1" onClick={this.editLearning}>
+              <button type="button" className="btn btn-secondary mb-1" onClick={this.editLearning}>
                 Edit Learning
               </button>
-              <button type="button" className="btn btn-danger" onClick={this.deleteLearning}>
+              <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmation">
                 Delete Learning
               </button>
+              <div id="deleteConfirmation" class="modal fade" role="dialog">
+                <div className="modal-dialog">
+                  <div className="modal-content">
+                    <div className="modal-body">
+                      Do you really wish to delete this learning?
+                      This process cannot be undone.
+                    </div>
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-secondary" data-dismiss="modal">
+                        Cancel
+                      </button>
+                      <button type="button" className="btn btn-danger" data-dismiss="modal" onClick={this.deleteLearning}>
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <Link to="/learnings" className="btn btn-link">

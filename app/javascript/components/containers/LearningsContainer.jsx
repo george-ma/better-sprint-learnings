@@ -65,7 +65,7 @@ class LearningsContainer extends React.Component {
           <div className="card-body">
             <h5 className="card-title">{learning.name}</h5>
             <Link to={`/learning/${learning.id}`} className="btn custom-button">
-              View Learnings
+              View Details
             </Link>
           </div>
         </div>
