@@ -1,9 +1,13 @@
 class Api::V1::LearningsController < ApplicationController
+  def learning
+    @learning ||= Learning.find(params[:id])
+  end
 
-  # Create learning, tag, and learning-tag relation (LearningTag) (if any)
-  def create
-    learning = Learning.create(name: params[:name], description: params[:description])
-    
+  def learning_tags
+    @learning_tags ||= LearningTag.where(learning_id: params[:id])
+  end
+
+  def create_tags(learning)
     tags = params[:tags]
     tags.each do |tagHash| # tagHash = hash of {name:"exampleTag"}
       tag = Tag.find_or_create_by(name: tagHash[:name])
@@ -11,6 +15,12 @@ class Api::V1::LearningsController < ApplicationController
       learningTag = LearningTag.create(learning: learning)
       tag.learning_tags << learningTag
     end
+  end
+
+  # Create learning, tag, and learning-tag relation (LearningTag) (if any)
+  def create
+    learning = Learning.create(name: params[:name], description: params[:description])
+    create_tags learning
 
     if learning
       render json: learning
@@ -21,19 +31,15 @@ class Api::V1::LearningsController < ApplicationController
 
   def edit
     res = Learning.where(id: params[:id]).update(name: params[:name], description: params[:description])
+
+    learning_tags&.destroy_all
+    create_tags res.first
+
     if res
       render json: res
     else
       render json: res.errors
     end
-    # tags = params[:tags]
-    # tags.each do |tagHash| # tagHash = hash of {name:"exampleTag"}
-    #   tag = Tag.find_or_create_by(name: tagHash[:name])
-      
-    #   learningTag = LearningTag.create(learning: learning)
-    #   tag.learning_tags << learningTag
-    # end
-
   end
 
   def index
@@ -51,13 +57,7 @@ class Api::V1::LearningsController < ApplicationController
     end
   end
 
-  def learning
-    @learning ||= Learning.find(params[:id])
-  end
-
-  def learning_tags
-    @learning_tags ||= LearningTag.where(learning_id: params[:id])
-  end
+  
 
   def show
     if learning
