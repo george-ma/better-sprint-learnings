@@ -3,7 +3,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'learnings/index'
       post 'learnings/create'
-      get 'learnings/filterByTag/:tagName', to: 'learnings#filterByTag'
+      # The constraint allows tagName to include periods
+      get 'learnings/filterByTag/:tagName', to: 'learnings#filterByTag', constraints: { tagName: /[^\/]+/} 
       get '/show/:id', to: 'learnings#show'
       post '/edit/:id', to: 'learnings#edit'
       delete '/destroy/:id', to: 'learnings#destroy'
