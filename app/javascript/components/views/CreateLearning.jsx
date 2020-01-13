@@ -48,7 +48,6 @@ class CreateLearning extends React.Component {
     // Convert the markdown text to JSON
     const description = convertToRaw(this.state.description.getCurrentContent());
 
-    console.log(description)
     if (name.length == 0)
       return;
 
