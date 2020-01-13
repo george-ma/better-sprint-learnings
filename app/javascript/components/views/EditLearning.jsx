@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import LearningForm from "../LearningForm";
 import axios from "axios";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js"
 
 class EditLearning extends React.Component {
   constructor(props) {
@@ -9,12 +10,13 @@ class EditLearning extends React.Component {
     this.state = {
       name: "",
       tags: [],
-      description: ""
+      description: EditorState.createEmpty() 
     }
     
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddition = this.handleAddition.bind(this);
 
+    this.handleEditorChange = this.handleEditorChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -24,11 +26,13 @@ class EditLearning extends React.Component {
 
     axios.get(`/api/v1/show/${id}`)
     .then(res => {
-      const data = res.data;
+      const content = convertFromRaw(JSON.parse(res.data.description))
+      const editorState = EditorState.createWithContent(content)
+
       this.setState({ 
-        name: data.name,
-        tags: data.tags,
-        description: data.description
+        name: res.data.name,
+        tags: res.data.tags,
+        description: editorState
       })
     })
     .catch(error => {
@@ -48,6 +52,10 @@ class EditLearning extends React.Component {
     this.setState({ tags })
   }
 
+  handleEditorChange(event) {
+    this.setState({ description: event })
+  }
+
   handleChange(event) {
     this.setState({ [event.target.id]: event.target.value});
   }
@@ -57,10 +65,12 @@ class EditLearning extends React.Component {
 
     const id = this.props.match.params.id;
     const url = `/api/v1/edit/${id}`;
+    const { name, tags } = this.state;
 
-    const { name, tags, description } = this.state;
+    // Convert the markdown text to JSON
+    const description = convertToRaw(this.state.description.getCurrentContent());
 
-    if (name.length == 0 || description.length == 0)
+    if (name.length == 0)
       return;
 
     const body = {
@@ -93,7 +103,7 @@ class EditLearning extends React.Component {
     return (
       <div className="container mt-5">
         <div className="row">
-          <div className="col-sm-12 col-lg-6 offset-lg-3">
+          <div className="col-sm-12 col-lg-8 offset-lg-2">
             <h1 className="font-weight-normal mb-5">
               Edit your learning!
             </h1>
@@ -102,11 +112,12 @@ class EditLearning extends React.Component {
               title="Edit learning"
               name={this.state.name}
               tags={this.state.tags}
-              description={this.state.description}
               onDelete={this.handleDelete}
               onAddition={this.handleAddition}
               onChange={this.handleChange}
               onSubmit={this.handleSubmit}
+              description={this.state.description}
+              onEditorChange={this.handleEditorChange}
             />
 
             <Link to={learningPath} className="btn btn-link mt-3">

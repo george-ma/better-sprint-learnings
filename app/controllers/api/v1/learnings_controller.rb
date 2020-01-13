@@ -22,7 +22,7 @@ class Api::V1::LearningsController < ApplicationController
 
   # Create learning, tag, and learning-tag relation (LearningTag) (if any)
   def create
-    learning = Learning.create(name: params[:name], description: params[:description])
+    learning = Learning.create(name: params[:name], description: params[:description].to_json)
     create_tags learning
 
     if learning
@@ -60,11 +60,8 @@ class Api::V1::LearningsController < ApplicationController
     end
   end
 
-  
-
   def show
     if learning
-      # render json: learning 
       render :json => learning.to_json(:include => :tags)
     else
       render json: learning.errors

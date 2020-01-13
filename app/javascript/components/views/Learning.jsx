@@ -1,15 +1,18 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { EditorState, convertFromRaw } from "draft-js"
+import { Editor } from "react-draft-wysiwyg"
 
 class Learning extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = { 
       learning: { 
         id: 0,
         name: "",
-        description: "",
+        description: EditorState.createEmpty(),
         tags: [],
         created_at: "",
         updated_at: ""
@@ -20,22 +23,31 @@ class Learning extends React.Component {
     this.deleteLearning = this.deleteLearning.bind(this)
   }
   
-  /**
-   * TODO: Change to use async / await
-   */
   componentDidMount() {
     const id = this.props.match.params.id;
 
     axios.get(`/api/v1/show/${id}`)
-      .then(res => {
-        this.setState({ learning: res.data })
+      .then(res => {  
+        const content = convertFromRaw(JSON.parse(res.data.description))
+        const editorState = EditorState.createWithContent(content)
+        
+        this.setState({
+          learning: {
+            id: res.data.id,
+            name: res.data.name,
+            description: editorState,
+            tags: res.data.tags,
+            created_at: res.data.created_at,
+            updated_at: res.data.updated_at
+          }
+        })
       })
       .catch(error => {
         console.log(`Error loading learnings: ${error}`);
         this.props.history.push("/");
       })
   }
-
+  
   editLearning() {
     const id = this.state.learning.id;
     this.props.history.push(`/learning/${id}/edit`)
@@ -65,13 +77,6 @@ class Learning extends React.Component {
       .catch(error => console.log(error.message))
   }
 
-  /**
-   * Replace new line characters with <br> tags
-   */
-  formatDescription(description) {
-    return description.replace(/\n/g, "<br> <br>")
-  }
-
   render() {
     const { learning } = this.state;
     let tagList = "No tags available";
@@ -85,8 +90,6 @@ class Learning extends React.Component {
         )
       });
     }
-
-    const formattedDescription = this.formatDescription(learning.description)
 
     return (
       <div className="">
@@ -111,7 +114,11 @@ class Learning extends React.Component {
             </div>
             <div className="col-sm-12 col-lg-7">
               <h5 className="mb-2">Learning Description</h5>
-              <div dangerouslySetInnerHTML={{__html: `${formattedDescription}`}}/>
+              <Editor
+                readOnly={true}
+                editorState={learning.description}
+                toolbarHidden={true}
+              />
             </div>
             <div className="col-sm-12 col-lg-2">
               <button type="button" className="btn btn-secondary mb-1" onClick={this.editLearning}>
@@ -120,7 +127,7 @@ class Learning extends React.Component {
               <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmation">
                 Delete Learning
               </button>
-              <div id="deleteConfirmation" class="modal fade" role="dialog">
+              <div id="deleteConfirmation" className="modal fade" role="dialog">
                 <div className="modal-dialog">
                   <div className="modal-content">
                     <div className="modal-body">

@@ -3,9 +3,6 @@
   min-width: 150px
 }
 
-.bg_primary-color {
-  background-color: #FFFFFF;
-}
 .primary-color {
   background-color: #FFFFFF;
 }
@@ -38,4 +35,18 @@
   height: 100%;
   width: 100%;
   opacity: 0.4;
+}
+
+/**
+Draft.js package styles
+*/
+.public-DraftStyleDefault-block {
+  margin: 0 !important;
+}
+
+.rdw-editor-main {
+  height: 300px !important;
+  padding: 10px;
+  border: 1px solid #F1F1F1;
+  border-radius: 2px;
 }

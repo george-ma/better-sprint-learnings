@@ -1,7 +1,13 @@
 import React from "react"
 import ReactTags from "react-tag-autocomplete"
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 class LearningForm extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
       <form onSubmit={this.props.onSubmit}>
@@ -27,13 +33,16 @@ class LearningForm extends React.Component {
           />
         </div>
         <label htmlFor="description">Learning Description</label>
-        <textarea
-          className="form-control"
-          id="description"
-          rows="5"
-          required
-          value={this.props.description}
-          onChange={this.props.onChange}
+        <Editor
+          editorState={this.props.description}
+          toolbarClassName="learning-toolbar"
+          wrapperClassName="learning-wrapper"
+          editorClassName="learning-editor"
+          onEditorStateChange={this.props.onEditorChange}
+          toolbar={{
+            options: ['inline', 'blockType', 'link', 'list'],
+            list: {inDropdown: true}
+          }}
         />
         <button type="submit" className="btn custom-button mt-3">
           {this.props.title}

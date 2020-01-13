@@ -1,8 +1,7 @@
 # Create Mock Learnings
 9.times do |i|
   Learning.create(
-    name: "Learning #{i + 1}",
-    description: 'Test Description'
+    name: "Learning #{i + 1}"
   )
 end
 

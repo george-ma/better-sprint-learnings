@@ -58,7 +58,7 @@ class LearningsContainer extends React.Component {
       <div key={index} className="col-md-6 col-lg-4">
         <div className="card mb-4">
           <img
-            src="https://i.imgur.com/mufV8Uh.png"
+            src="https://i.imgur.com/mNlD62f.png"
             className="card-img-top"
             alt={`${learning.name} image`}
           />
