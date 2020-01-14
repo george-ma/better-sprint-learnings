@@ -33,7 +33,7 @@ class Api::V1::LearningsController < ApplicationController
   end
 
   def edit
-    res = Learning.where(id: params[:id]).update(name: params[:name], description: params[:description])
+    res = Learning.where(id: params[:id]).update(name: params[:name], description: params[:description].to_json)
 
     learning_tags&.destroy_all
     create_tags res.first
