@@ -1,6 +1,8 @@
-# Better Sprint Learnings
+# Better Sprint Learnings [Deprecated]
 
-**A collection of sprint insights categorized by team, service, or system!**
+### Note: This project was dockerized, use flipp-sprint-learnings instead
+
+A collection of sprint insights categorized by team, service, or system!**
 
 ![](https://i.imgur.com/cjBOGHT.png)
 
@@ -23,14 +25,13 @@ After setting up the necessary prerequisites and git cloning the repository, nav
 
 `rails db:create` 
 
-This command creates a `development` and `test` database. Now, setup (optional) seed data using:
+This command creates a `development` and `test` database.
+To setup a barebones system, run the following command on the project's root directory:
 
-`rails db:seed`
+`mysql -u {username} -p {password} --database=better-sprint-learnings_development < development_dump.sql`
 
 Now, you can start the application by running the following in the Terminal:
 
 `rails start --binding=127.0.01`
 
 Lastly, open a browser window and navigate to `http://localhost:3000` to view the application.
-
-
