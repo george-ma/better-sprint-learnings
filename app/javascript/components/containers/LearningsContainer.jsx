@@ -84,7 +84,7 @@ class LearningsContainer extends React.Component {
       <div>
         <section className="jumbotron jumbotron-fluid text-center">
           <div className="container py-5">
-            <h1 className="display-4">Flipp Learnings</h1>
+            <h1 className="display-3">Flipp Learnings</h1>
             <p className="lead text-muted">
               A collection of learnings that teams have discovered throughout
               their sprint!

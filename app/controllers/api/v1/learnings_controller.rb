@@ -10,7 +10,7 @@ class Api::V1::LearningsController < ApplicationController
   def create_tags(learning)
     tags = params[:tags]
     tags.each do |tagHash| # tagHash = hash of {name:"exampleTag"}
-      tag = Tag.find_or_create_by(name: tagHash[:name])
+      tag = Tag.find_or_create_by(name: tagHash[:name].downcase)
       
       # Prevent duplicate learning_tags to be created
       if !LearningTag.find_by(learning_id: learning.id, tag_id: tag.id)
@@ -51,7 +51,7 @@ class Api::V1::LearningsController < ApplicationController
   end
 
   def filterByTag
-    filteredLearnings = Learning.joins(:tags).where(tags: { name: params[:tagName]})
+    filteredLearnings = Learning.joins(:tags).where(tags: { name: params[:tagName].downcase})
 
     if filteredLearnings
       render json: filteredLearnings
